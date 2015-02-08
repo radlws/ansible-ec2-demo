@@ -6,7 +6,7 @@
 #  tasks:
 #    - name: Provision x no of instances
 #      ec2:
-#         key_name: union
+#         key_name: id_rsa_u
 #         region: "{{ region }}"
 #         group: web
 #         instance_type: t2.micro
