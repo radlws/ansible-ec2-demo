@@ -54,3 +54,4 @@
     - name: create symlink in home dir called "link"
       file: dest=~/link src="{{ home_vol_mount }}" state=link force=yes
       sudo: false
+    #- service: name=httpd state=started  # start the service again
