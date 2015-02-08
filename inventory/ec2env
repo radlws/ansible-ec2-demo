@@ -1,0 +1,21 @@
+[localhost]
+127.0.0.1
+#127.0.0.1 ansible_python_interpreter=/usr/local/bin/python
+
+[appservers]
+ec2-52-0-187-102.compute-1.amazonaws.com    ansible_connection=ssh        ansible_ssh_user=ubuntu    ansible_ssh_private_key_file=~/.ssh/id_rsa_u
+
+#[production:children]  #
+#appservers
+#[radtest-group:children]
+#production
+
+#[production:vars]  # group vars
+#instance_id=i-9ca7e46d
+#project_name=project
+#project_user=projectteam
+
+#ansible_ssh_user=ubuntu
+#ansible_sudo_pass=toor
+#ansible_ssh_key=~/.ssh/id_rsa_u
+#ansible_ssh_private_key_file=~/.ssh/id_rsa_u

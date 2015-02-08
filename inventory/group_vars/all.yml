@@ -1,0 +1,8 @@
+# http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html
+instance_id: i-9ca7e46d
+region: us-east-1
+ami_id: ami-146e2a7c  # AWS LInux,  ami-9a562df2 # Ubuntu 14.04
+home_vol: /dev/xvdf
+home_vol_mount: /srv/disk
+#sshkey: id_rsa
+#zone: us-east-1a

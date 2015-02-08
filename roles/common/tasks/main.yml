@@ -1,0 +1,15 @@
+---
+
+- name: create ec2 instance
+  action:
+    module: ec2
+    zone: "{{ zone }}"
+    image: "{{ image }}"
+    instance_type: "{{instance_type}}"
+    state: present
+    region: "{{ region }}"
+    key_name: "{{ sshkey }}"
+    vpc_subnet_id: "{{ subnet }}"
+    group: "{{ security_group }}"
+    instance_tags:
+      Name: "{{inventory_hostname}}"

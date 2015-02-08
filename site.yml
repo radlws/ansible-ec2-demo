@@ -1,0 +1,56 @@
+---
+# WORKS!
+#- hosts: localhost
+#  connection: local
+#  gather_facts: False
+#  tasks:
+#    - name: Provision x no of instances
+#      ec2:
+#         key_name: union
+#         region: "{{ region }}"
+#         group: web
+#         instance_type: t2.micro
+#         image: "{{ ami_id }}"
+#         wait: true
+#         exact_count: 2
+#         count_tag:
+#            Name: Demo
+#         instance_tags:
+#            Name: Demo
+#      register: ec2
+
+# file: site.yml
+#- include: appservers.yml
+
+
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: create a new volume
+      ec2_vol:
+        region: "{{ region }}"
+        instance: "{{ instance_id }}"
+        volume_size: 1
+        #volume_type: gp2  # SSD , not working unsupported parameter for module: volume_type
+        device_name: "{{ home_vol }}"
+      run_once: true
+
+- hosts: appservers
+  #connection: local
+  gather_facts: False
+  sudo: true
+  tasks:
+    #- service: name=httpd state=stopped  # stop a service, can also use notify: service stop
+    - name: make fs
+      filesystem: fstype=ext4 dev="{{ home_vol }}"
+      run_once: true
+    - name: create directory for mount
+      file: path="{{ home_vol_mount }}"
+    - name: mount the new fs
+      mount: name="{{ home_vol_mount }}" src="{{ home_vol }}" fstype=ext4 state=mounted #present
+    - name: copy files to new point
+      shell: cp -r ~ {{ home_vol_mount }}
+    - name: create symlink in home dir called "link"
+      file: dest=~/link src="{{ home_vol_mount }}" state=link force=yes
+      sudo: false

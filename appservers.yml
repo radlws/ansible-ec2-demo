@@ -1,0 +1,14 @@
+---
+# file: appservers.yml
+#- name: Gather data about database servers
+#  hosts: appservers
+#  gather_facts: no
+
+# http://willthames.github.io/2014/03/17/ansible-layered-configuration-for-aws.html
+
+- name: Configure all application server volumes
+  hosts: appservers
+  sudo: yes
+  roles:
+    #- common
+    - { role: vols }

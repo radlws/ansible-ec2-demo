@@ -1,0 +1,20 @@
+---
+# - name: test
+#   shell: echo "Im in"
+
+#- name: create a new volume using ssd
+#  ec2_vol:
+#    instance: "{{ instance_id }}"
+#    volume_size: 5
+#    volume_type: gp2  # SSD
+#    device_name: /dev/xvdf
+
+## Remove a volume
+#- ec2_vol:
+#    id: vol-XXXXXXXX
+#    state: absent
+#
+## Detach a volume
+#- ec2_vol:
+#    id: vol-XXXXXXXX
+#    instance: None
