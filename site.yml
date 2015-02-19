@@ -55,5 +55,6 @@
       file: dest=~/link src="{{ home_vol_mount }}" state=link force=yes
       sudo: false
     #- service: name=httpd state=started  # start the service again
+    # TODO: put in sep playbook
 
 # hosts again? then git d/l with forwardagent
