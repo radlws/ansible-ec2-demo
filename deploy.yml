@@ -1,0 +1,14 @@
+---
+
+- hosts: appservers
+  #connection: local
+  gather_facts: False
+  #sudo: true  # ForwardAgent not working with sudo true, also didn't get it to work as mac as host controller
+  tasks:
+    #- service: name=httpd state=stopped  # stop a service, can also use notify: service stop
+    # Install the package "git"
+    - apt: name=git state=present
+    - name: app | clone git
+      #git: repo=https://github.com/radlws/django-awseb-tasks.git dest=~/test_awstasks
+      git: repo=git@bitbucket.org:trapeze/boulanger.git dest=~/boulanger accept_hostkey=True
+      #sudo: false
