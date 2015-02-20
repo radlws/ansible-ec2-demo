@@ -23,6 +23,15 @@ Test out ForwardAgent with git module:
 
 2) Make sure to update intventory with correct app server.
 
-3) run on control system:
+
+3) Make sure ~/.ssh/config contains:
+
+Host *
+    ForwardAgent yes
+
+
+4) run ssh-add on your ssh key that you want to use
+
+5) run on control system:
 
     ansible-playbook -i inventory/ec2env deploy.yml
