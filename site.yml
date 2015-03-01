@@ -32,3 +32,11 @@
       file: dest=~/link src="{{ home_vol_mount }}" state=link force=yes
       sudo: false
     #- service: name=httpd state=started  # start the service again
+
+TODO
+
+- name: add several users
+  user: name={{ item.name }} state=present groups={{ item.groups }}
+  with_items:
+    - { name: 'testuser1', groups: 'wheel' }
+    - { name: 'testuser2', groups: 'root' }
