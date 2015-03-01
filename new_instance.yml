@@ -1,22 +1,7 @@
 ---
+#Create the instance
 - hosts: localhost
   connection: local
-  gather_facts: False
-  tasks:
-    - name: Provision x no of instances
-      ec2:
-         key_name: id_rsa_u
-         region: "{{ region }}"
-         group: web
-         instance_type: t2.micro
-         image: "{{ ami_id }}"
-         wait: true
-         exact_count: 2
-         count_tag:
-            Name: Demo
-         instance_tags:
-            Name: Demo
-      register: ec2
-
-#file: site.yml
-#- include: appservers.yml
+  gather_facts: false
+  roles:
+    - ec2_creation

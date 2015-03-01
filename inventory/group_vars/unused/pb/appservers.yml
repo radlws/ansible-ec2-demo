@@ -12,3 +12,7 @@
   roles:
     #- common
     - { role: vols }
+
+# to include in another file
+#file: site.yml
+#- include: appservers.yml

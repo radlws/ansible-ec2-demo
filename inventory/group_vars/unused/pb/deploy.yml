@@ -10,5 +10,5 @@
     - apt: name=git state=present
     - name: app | clone git
       #git: repo=https://github.com/radlws/django-awseb-tasks.git dest=~/test_awstasks
-      git: repo=git@bitbucket.org:trapeze/boulanger.git dest=~/boulanger accept_hostkey=True
+      git: repo=git@bitbucket.org:team/repo.git dest=~/repo accept_hostkey=True
       #sudo: false

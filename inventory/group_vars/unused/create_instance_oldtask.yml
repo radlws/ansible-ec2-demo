@@ -1,0 +1,61 @@
+---
+
+#- name: create ec2 instance with volume that already exists
+#  action:
+#    module: ec2
+#    zone: ap-southeast-2a
+#    image: ami-a1b2c3d4
+#    instance_type: c3.large
+#    state: present
+#    region: ap-southeast-2
+#    vpc_subnet_id: subnet-abcd1234
+#    group: sg-aaaa1111
+
+
+# EXAMPLES
+- name: create ec2 instance
+  action:
+    module: ec2
+    zone: "{{ zone }}"
+    image: "{{ image }}"
+    instance_type: "{{instance_type}}"
+    state: present
+    region: "{{ region }}"
+    key_name: "{{ sshkey }}"
+    vpc_subnet_id: "{{ subnet }}"
+    group: "{{ security_group }}"
+    instance_tags:
+      Name: "{{inventory_hostname}}"
+
+
+# ONE USED
+- name: Provision x no of instances
+  ec2:
+     key_name: id_rsa_u
+     region: "{{ region }}"
+     group: web
+     instance_type: t2.micro
+     image: "{{ ami_id }}"
+     wait: true
+     exact_count: 2
+     count_tag:
+        Name: Demo
+     instance_tags:
+        Name: Demo
+  register: ec2
+
+
+
+- name: create ec2 instance
+  action:
+    module: ec2
+    zone: "{{ zone }}"
+    image: "{{ image }}"
+    instance_type: "{{instance_type}}"
+    state: present
+    region: "{{ region }}"
+    key_name: "{{ sshkey }}"
+    #vpc_subnet_id: "{{ subnet }}"
+    group: "{{ security_group }}"
+    instance_tags:
+      Name: "{{inventory_hostname}}"
