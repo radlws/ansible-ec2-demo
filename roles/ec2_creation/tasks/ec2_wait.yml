@@ -4,12 +4,5 @@
     state: started
     host: "{{ ec2_info.instances[0].public_dns_name }}"
     port: 22
+    delay: 300 # wait 5 mins for instance to become ready to provision
   when: ec2_info|changed
-
-#- name: add new instance to ec2hosts group memory inventory
-#  add_host:
-#    hostname: "{{ ec2_info.instances[0].public_ip }}"
-#    groupname: ec2hosts
-#    instance_id: "{{ ec2_info.instances[0].id }}"
-#  when: ec2_info|changed
-
