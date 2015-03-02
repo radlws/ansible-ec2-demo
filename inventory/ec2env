@@ -1,6 +1,5 @@
 [localhost]
 127.0.0.1
-#127.0.0.1 ansible_python_interpreter=/usr/local/bin/python
 
 [appservers]
 ec2-52-1-75-141.compute-1.amazonaws.com

@@ -1,0 +1,20 @@
+---
+- name: create ebs volumes
+  ec2_vol:
+    #region: "{{ item.0.region }}"
+    region: "{{ item.1.region }}"
+    instance: "{{ item.1.id }}"
+    volume_size: "{{ item.0.size }}"
+    #volume_type: "{{ item.0.volume_type }}"  # SSD , not working unsupported parameter for module: volume_type
+    device_name: "{{ item.0.device }}"
+  with_nested:  # list with 2 items, nested
+    - ebs_volumes
+    - ec2_info.instances
+  #run_once: true
+
+#- ec2_vol:
+#    instance: "{{ item.id }}"
+#    name: my_existing_volume_Name_tag
+#    device_name: /dev/xvdf
+#    with_items: volumes
+#    register: ec2_vol

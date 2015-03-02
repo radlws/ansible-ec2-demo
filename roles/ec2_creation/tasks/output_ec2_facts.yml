@@ -1,0 +1,8 @@
+---
+- name: get ec2_info information
+  debug:
+    msg: "{{ ec2_info }}"
+
+- name: output the elastic IP
+  debug: msg="Allocated IP is {{ elastic_ip }}"
+

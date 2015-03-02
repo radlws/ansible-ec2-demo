@@ -1,0 +1,7 @@
+---
+- name: associate new elastic IPs with the instance
+  ec2_eip: "instance_id={{ item }} region={{ aws_defaults.aws_region }}"
+  with_items: ec2_info.instance_ids
+  register: elastic_ip
+
+
