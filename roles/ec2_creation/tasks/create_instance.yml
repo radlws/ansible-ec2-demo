@@ -6,6 +6,16 @@
 #    - ebs_volumes
 #    - ebs_volumes
 
+#- name: set team name variable for later use (create user)
+#  set_fact:
+#    team_user: "{{ project + 'team' }}"
+#  #when: param2 is defined
+
+#- name: Print
+#  debug: msg="{{ team_user }}"
+
+# TODO: Skip if instance_id is passed, means don't create instance, only vols
+
 - name: create new ec2 instance
   ec2:
     region: "{{ aws_defaults.aws_region }}"
@@ -17,19 +27,13 @@
     count: 1
     wait: yes
     instance_tags:
-      Name: "{{ server_name }}"
+      Name: "{{ project }}-{{ site_name }}"
   register: ec2_info
 
-#- name: Print
-#  debug: msg="{{ item.1.id }} {{ item.0.name }} {{ item.0.size }} {{ item.0.device }} {{ item.0.volume_type }}"
-#  with_nested:
-#    - ebs_volumes
-#    - ec2_info.instances
-
-#- name: add new instance to ec2hosts group memory inventory
-#  add_host:
-#    hostname: "{{ ec2_info.instances[0].public_ip }}"
-#    groupname: ec2hosts
-#    instance_id: "{{ ec2_info.instances[0].id }}"
-#  when: ec2_info|changed
+- name: add new instance to ec2hosts group memory inventory
+  add_host:
+    hostname: "{{ ec2_info.instances[0].public_ip }}"
+    groupname: ec2hosts
+    instance_id: "{{ ec2_info.instances[0].id }}"
+  when: ec2_info|changed
 

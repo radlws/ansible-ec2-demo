@@ -1,6 +1,24 @@
-# http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html
+#gp2 not working, unsupported volume_type ?
+#unsupported parameter for module: volume_type
+# , volume_type: 'standard'  v.1.8.2 ?
+ebs_volumes:
+  - { device: '/dev/xvdf', name: 'home', size: 1, mount: '/vols/home', sym_link: '/home', region: 'us-east-1', volume_type: 'gp2'  }
+  - { device: '/dev/xvdg', name: 'pg_data', size: 1, mount: '/vols/pg_data', sym_link: '/var/lib/pg_test', region: 'us-east-1', volume_type: 'gp2'   }
 
-# all group vars here
+
+team_user_prefix: team
+
+aws_defaults:  # this is a dict of dicts
+  aws_region: us-east-1   # eu-west-1
+  ami_id: ami-146e2a7c  # image_id, AWS LInux,  ami-9a562df2 # Ubuntu 14.04
+  instance_type: t2.micro
+  aws_key_pair: union
+  security_group: web
+  aws_zone: us-east-1a
+
+
+#TODO
+# defaults for project & site name ? i.e. test-dev
 
 #volumes:
 #  home:

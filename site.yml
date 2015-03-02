@@ -3,40 +3,21 @@
 - hosts: localhost
   connection: local
   gather_facts: False
-  tasks:
-    - name: create a new volume
-      ec2_vol:
-        region: "{{ region }}"
-        instance: "{{ instance_id }}"
-        volume_size: 1
-        #volume_type: gp2  # SSD , not working unsupported parameter for module: volume_type
-        device_name: "{{ home_vol }}"
-      run_once: true
+  roles:
+    - ec2_creation
 
-- hosts: appservers
-  #connection: local
-  gather_facts: False
-  sudo: true
-  tasks:
-    #- service: name=httpd state=stopped  # stop a service, can also use notify: service stop
-    - name: make fs
-      filesystem: fstype=ext4 dev="{{ home_vol }}"
-      run_once: true
-    - name: create directory for mount
-      file: path="{{ home_vol_mount }}"
-    - name: mount the new fs
-      mount: name="{{ home_vol_mount }}" src="{{ home_vol }}" fstype=ext4 state=mounted #present
-    - name: copy files to new point
-      shell: cp -r ~ {{ home_vol_mount }}
-    - name: create symlink in home dir called "link"
-      file: dest=~/link src="{{ home_vol_mount }}" state=link force=yes
-      sudo: false
-    #- service: name=httpd state=started  # start the service again
+#Configure and install all we need
+- hosts: ec2hosts  # dynamically created in ec2_creation - create instance
+#- hosts: appservers
+  gather_facts: false
+  remote_user: ubuntu
+  roles:
+    - mount_vols
+    #- common
+    #- passenger
 
-#TODO
-#
-#- name: add several users
-#  user: name={{ item.name }} state=present groups={{ item.groups }}
-#  with_items:
-#    - { name: 'testuser1', groups: 'wheel' }
-#    - { name: 'testuser2', groups: 'root' }
+#- hosts: appservers
+#  gather_facts: False
+#  sudo: true
+#  roles:
+#    - mount_vols

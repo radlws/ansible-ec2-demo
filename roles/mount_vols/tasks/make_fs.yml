@@ -1,14 +1,41 @@
 ---
-#- service: name=httpd state=stopped  # stop a service, can also use notify: service stop
+# TODO: install services that use mounts and stop them, then start at end
+#- service: name=postgres state=stopped  # stop a service, can also use notify: service stop
+#- service: name=nginx state=stopped  # stop a service, can also use notify: service stop
+
+- name: create team group
+  group: name="{{ project }}{{ team_user_prefix }}" state=present
+- name: create team user
+  user: name="{{ project }}{{ team_user_prefix }}" uid=2000 group=sudo  # TODO fix uid and groups, etc.. group same as user
+
 - name: make fs
-  filesystem: fstype=ext4 dev="{{ home_vol }}"
-  run_once: true
+  filesystem: fstype=ext4 dev="{{ item.device }}"
+  with_items: ebs_volumes
+  #run_once: true
+
 - name: create directory for mount
-  file: path="{{ home_vol_mount }}"
+  file: path="{{ item.mount }}"
+  with_items: ebs_volumes
+
 - name: mount the new fs
-  mount: name="{{ home_vol_mount }}" src="{{ home_vol }}" fstype=ext4 state=mounted #present
-- name: copy files to new point
-  shell: cp -r ~ {{ home_vol_mount }}
-- name: create symlink in home dir called "link"
-  file: dest=~/link src="{{ home_vol_mount }}" state=link force=yes
-  sudo: false
+  mount: name="{{ item.mount }}" src="{{ item.device }}" fstype=ext4 state=mounted #present (check if exist, no mount)
+  with_items: ebs_volumes
+
+#- stat: path=/path/to/something  # TODO: need to stat if exists?
+#  register: p
+#- debug: msg="Path exists and is a directory"
+#  when: p.stat.isdir is defined and p.stat.isdir
+
+- name: copy files to new point preserving permissions
+  shell: cp -rp {{ item.sym_link }} {{ item.mount }}
+  with_items: ebs_volumes
+  ignore_errors: yes  # continue if orig doesn't exist
+
+- name: move data instead of delete, for no loss
+  command: mv {{ item.sym_link }} {{ item.sym_link + '_old' }}
+  ignore_errors: yes  # continue if orig doesn't exist
+
+- name: create symlink for mount
+  file: dest="{{ item.sym_link }}" src="{{ item.mount }}" state=link force=yes
+  with_items: ebs_volumes
+  #sudo: false

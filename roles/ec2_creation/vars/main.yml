@@ -1,12 +1,5 @@
 ---
-aws_defaults:  # this is a dict of dicts
-  aws_region: us-east-1   # eu-west-1
-  ami_id: ami-146e2a7c  # image_id, AWS LInux,  ami-9a562df2 # Ubuntu 14.04
-  instance_type: t2.micro
-  aws_key_pair: your_key
-  security_group: web
-  aws_zone: us-east-1a
-
+# TODO: examine structure vs ladder
 #ebs_volumes:
 #  /dev/xvdf:  # item.key, home
 #    device: /dev/xvdf  # item.value.device
@@ -22,11 +15,3 @@ aws_defaults:  # this is a dict of dicts
 #    size: 1
 #    volume_type: gp2
 #    region: us-east-1
-
-
-#gp2 not working, unsupported volume_type ?
-#unsupported parameter for module: volume_type
-# , volume_type: 'standard'  v.1.8.2 ?
-ebs_volumes:
-  - { device: '/dev/xvdf', name: 'home', size: 1, mount: '/home', region: 'us-east-1', volume_type: 'gp2'  }
-  - { device: '/dev/xvdg', name: 'pg_data', size: 1, mount: '/svr/pg_data', region: 'us-east-1', volume_type: 'gp2'   }

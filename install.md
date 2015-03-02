@@ -14,11 +14,23 @@ To run:
     # To create ec2 volumes on existing instance
     ansible-playbook -i inventory/ec2env site.yml
 
-    # To create a new instance called test-staging (name tag)
-    ansible-playbook -i inventory/local new_instance.yml --extra-vars "server_name=test-staging"
+    # To create a new instance & volumes ONLY, instance name = test-staging (name tag)
+    ansible-playbook -i inventory/local new_instance.yml --extra-vars "project=test site=staging"
 
+    # Create instance & mount volumes, don't check host keys on connect to new instance
+    # export ANSIBLE_HOST_KEY_CHECKING=False  to not prompt for accepting ssh key
+    # -e 'host_key_checking=False'
+    ansible-playbook -i inventory/ec2env site.yml --extra-vars "project=test site_name=staging"
 
 Note: Make sure inventory is updated with correct appserver(s)
+
+Note: When done testing, don't forget to clean up to minimize AWS costs:
+
+Instance Cleanup:
+
+- Remove the instances manually
+- Remove the Volumes & Elastic IPs manually
+
 
 
 Test out ForwardAgent with git module:
@@ -38,7 +50,7 @@ Host *
 
 5) run on control system:
 
-    ansible-playbook -i inventory/ec2env deploy.yml
+    ansible-playbook -i inventory/ec2env test_ssh_fwd.yml
 
 
 References: http://thinkingeek.com/2014/05/10/create-configure-ec2-instances-rails-deployment-ansible/
