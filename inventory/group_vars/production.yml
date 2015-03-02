@@ -1,0 +1,4 @@
+
+#ansible_ssh_private_key_file: id_rsa_u
+#ansible_connection: ssh
+#ansible_ssh_user: ubuntu

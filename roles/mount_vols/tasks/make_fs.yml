@@ -3,6 +3,11 @@
 #- service: name=postgres state=stopped  # stop a service, can also use notify: service stop
 #- service: name=nginx state=stopped  # stop a service, can also use notify: service stop
 
+# TODO: #1
+# Need a delay here before this happens or
+# “cannot lock /etc/group; try again later”
+# ec2 inst, still initializing
+
 - name: create team group
   group: name="{{ project }}{{ team_user_prefix }}" state=present
 - name: create team user

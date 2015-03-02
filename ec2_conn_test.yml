@@ -1,0 +1,11 @@
+---
+- hosts: appservers
+  gather_facts: False
+  sudo: true
+  tasks:
+    # working test
+    - name: create team group
+      group: name="{{ project }}{{ team_user_prefix }}" state=present
+    # fail test
+    - name: create directory for mount
+      file: path="/var/log/test_out"

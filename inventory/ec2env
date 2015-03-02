@@ -2,19 +2,17 @@
 127.0.0.1
 
 [appservers]
-ec2-52-1-75-141.compute-1.amazonaws.com
+54.152.238.133
+#ansible_connection=ssh        ansible_ssh_user=ubuntu    ansible_ssh_private_key_file=~/.ssh/id_rsa_u
 #ec2-52-1-75-141.compute-1.amazonaws.com   ansible_connection=ssh        ansible_ssh_user=ubuntu    ansible_ssh_private_key_file=~/.ssh/id_rsa_u
 
-[production:children]
-appservers
+#[production:children]
+#appservers
 
 
-[production:vars]
-instance_id=i-9ca7e46d
-project_name=project
-#project_user=projectteam
-
-ansible_connection=ssh
-ansible_ssh_user=ubuntu
+#[production:vars]
+#instance_id=i-9ca7e46d
 #ansible_sudo_pass=toor
+#ansible_connection=ssh
+#ansible_ssh_user=ubuntu
 #ansible_ssh_private_key_file=~/.ssh/id_rsa_u

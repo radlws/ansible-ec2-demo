@@ -4,4 +4,20 @@
   with_items: ec2_info.instance_ids
   register: elastic_ip
 
+- name: Output the IP
+  debug: msg="The elastic IP is {{ elastic_ip.results[0].public_ip }}"
 
+- name: add new instance to ec2hosts group memory inventory
+  add_host:
+    hostname: "{{ elastic_ip.results[0].public_ip }}"
+    groupname: ec2hosts
+    instance_id: "{{ ec2_info.instances[0].id }}"
+    #instance_id: "{{ elastic_ip.results[0].item }}"
+  when: elastic_ip|changed
+
+#- name: add new instance to ec2hosts group memory inventory
+#  add_host:
+#    hostname: "{{ ec2_info.instances[0].public_ip }}"
+#    groupname: ec2hosts
+#    instance_id: "{{ ec2_info.instances[0].id }}"
+#  when: elastic_ip|changed

@@ -1,6 +1,6 @@
 ---
 - include: create_instance.yml #Create the instance
+- include: elastic_ip.yml #Create the elastic ip & associate it
 - include: ec2_wait.yml #Create the instance
 - include: create_vols.yml #Create the instance
-- include: elastic_ip.yml #Create the elastic ip & associate it
 - include: output_ec2_facts.yml #Get ec2 information

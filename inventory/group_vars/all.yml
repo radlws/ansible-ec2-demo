@@ -10,12 +10,26 @@ team_user_prefix: team
 
 aws_defaults:  # this is a dict of dicts
   aws_region: us-east-1   # eu-west-1
-  ami_id: ami-146e2a7c  # image_id, AWS LInux,  ami-9a562df2 # Ubuntu 14.04
+  ami_id: ami-9a562df2  # Ubuntu 14.04 HVM
+  #ami_id: ami-146e2a7c  # AWS Linux 2014.09
   instance_type: t2.micro
   aws_key_pair: union
   security_group: web
   aws_zone: us-east-1a
 
+
+#TODO: test what takes precedence
+project: test2
+
+# user used by ansible to connect to instance
+ansible_ssh_user: ubuntu
+
+# used to connect to instances, name of key in ~/.ssh/
+#ansible_ssh_private_key_file: id_rsa_u  # will find key if identity added
+#ansible_connection: ssh  # default
+
+# TODO: Configure to skip inst creation, bring in as extra?
+#instance_id: i-9ca7e46d
 
 #TODO
 # defaults for project & site name ? i.e. test-dev
@@ -34,8 +48,8 @@ aws_defaults:  # this is a dict of dicts
 #aws_key_pair: id_rsa_u
 #home_vol: /dev/xvdf
 #home_vol_mount: /srv/disk
-#local_key_pair: id_rsa_u
-#instance_id: i-9ca7e46d
+
+
 #instance_name_tag: project_name
 #key_pair: "aws_ssh_key"
 #security_groups: ["App Frontends", "App Private"]

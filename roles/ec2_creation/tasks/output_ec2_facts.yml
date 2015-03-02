@@ -9,4 +9,4 @@
 
 - name: output the elastic IP
   debug:
-    msg: "Allocated IP is {{ elastic_ip }}"
+    msg: "Allocated IP.{{ elastic_ip }}"

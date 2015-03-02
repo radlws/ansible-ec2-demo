@@ -22,6 +22,9 @@ To run:
     # -e 'host_key_checking=False'
     ansible-playbook -i inventory/ec2env site.yml --extra-vars "project=test site_name=staging"
 
+    # ec2 connection test, update appservers ip first, then
+    ansible-playbook -i inventory/ec2env ec2_conn_test.yml
+
 Note: Make sure inventory is updated with correct appserver(s)
 
 Note: When done testing, don't forget to clean up to minimize AWS costs:
@@ -35,7 +38,7 @@ Instance Cleanup:
 
 Test out ForwardAgent with git module:
 
-1) Make sure step 2 is setup in above.
+1) Make sure step 2 is setup in above & ensure test_ssh_fwd.yml git command points to a valid private repo
 
 2) Make sure to update intventory with correct app server.
 
