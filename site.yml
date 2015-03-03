@@ -6,18 +6,10 @@
   roles:
     - ec2_creation
 
-#Configure and install all we need
 - hosts: ec2hosts  # dynamically created in ec2_creation - create instance
-#- hosts: appservers
   gather_facts: false
   remote_user: ubuntu
+  sudo: true
   roles:
     - mount_vols
     #- common
-    #- passenger
-
-#- hosts: appservers
-#  gather_facts: False
-#  sudo: true
-#  roles:
-#    - mount_vols

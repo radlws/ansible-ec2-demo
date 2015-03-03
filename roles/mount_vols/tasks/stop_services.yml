@@ -1,0 +1,4 @@
+---
+# TODO: install services that use mounts and stop them, then start at end
+#- service: name=postgres state=stopped  # stop a service, can also use notify: service stop
+#- service: name=nginx state=stopped  # stop a service, can also use notify: service stop

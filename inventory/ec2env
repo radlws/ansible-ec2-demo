@@ -2,7 +2,7 @@
 127.0.0.1
 
 [appservers]
-54.152.238.133
+54.85.213.93
 #ansible_connection=ssh        ansible_ssh_user=ubuntu    ansible_ssh_private_key_file=~/.ssh/id_rsa_u
 #ec2-52-1-75-141.compute-1.amazonaws.com   ansible_connection=ssh        ansible_ssh_user=ubuntu    ansible_ssh_private_key_file=~/.ssh/id_rsa_u
 

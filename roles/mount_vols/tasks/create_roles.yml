@@ -1,0 +1,5 @@
+---
+- name: create team group
+  group: name="{{ project }}{{ team_user_prefix }}" state=present
+- name: create team user
+  user: name="{{ project }}{{ team_user_prefix }}" uid=2000 group=sudo  # TODO fix uid and groups, etc.. group same as user

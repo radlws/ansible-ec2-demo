@@ -1,25 +1,14 @@
 ---
-# TODO: install services that use mounts and stop them, then start at end
-#- service: name=postgres state=stopped  # stop a service, can also use notify: service stop
-#- service: name=nginx state=stopped  # stop a service, can also use notify: service stop
-
-# TODO: #1
-# Need a delay here before this happens or
-# “cannot lock /etc/group; try again later”
-# ec2 inst, still initializing
-
-- name: create team group
-  group: name="{{ project }}{{ team_user_prefix }}" state=present
-- name: create team user
-  user: name="{{ project }}{{ team_user_prefix }}" uid=2000 group=sudo  # TODO fix uid and groups, etc.. group same as user
 
 - name: make fs
   filesystem: fstype=ext4 dev="{{ item.device }}"
   with_items: ebs_volumes
   #run_once: true
 
+#- name: Move foo to bar
+#  command: creates="path/to/bar" mv /path/to/foo /path/to/bar
 - name: create directory for mount
-  file: path="{{ item.mount }}"
+  file: path="{{ item.mount }}" state=directory
   with_items: ebs_volumes
 
 - name: mount the new fs
@@ -31,16 +20,28 @@
 #- debug: msg="Path exists and is a directory"
 #  when: p.stat.isdir is defined and p.stat.isdir
 
-- name: copy files to new point preserving permissions
-  shell: cp -rp {{ item.sym_link }} {{ item.mount }}
+- name: copy files to new volume preserving permissions
+  shell: cp -rp {{ item.sym_link }}/* {{ item.mount }}
   with_items: ebs_volumes
   ignore_errors: yes  # continue if orig doesn't exist
 
-- name: move data instead of delete, for no loss
-  command: mv {{ item.sym_link }} {{ item.sym_link + '_old' }}
+- name: cp data instead of delete, for no loss
+  command: cp -rf {{ item.sym_link }} {{ item.sym_link + '_old' }}
+  with_items: ebs_volumes
   ignore_errors: yes  # continue if orig doesn't exist
 
 - name: create symlink for mount
   file: dest="{{ item.sym_link }}" src="{{ item.mount }}" state=link force=yes
+  when: item.sym_link != '/home'
+  #when: item.sym_link is defined
   with_items: ebs_volumes
-  #sudo: false
+
+- name: unmount vol if vol has last_mount
+  mount: name="{{ item.mount }}" src="{{ item.device }}" fstype=ext4 state=absent
+  when: item.sym_link == '/home'
+  with_items: ebs_volumes
+
+- name: remount vol if vol has last_mount as last_mount
+  mount: name="{{ item.sym_link }}" src="{{ item.device }}" fstype=ext4 state=mounted
+  when: item.sym_link == '/home'
+  with_items: ebs_volumes

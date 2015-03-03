@@ -21,6 +21,8 @@ To run:
     # export ANSIBLE_HOST_KEY_CHECKING=False  to not prompt for accepting ssh key
     # -e 'host_key_checking=False'
     ansible-playbook -i inventory/ec2env site.yml --extra-vars "project=test site_name=staging"
+    ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory/ec2env site.yml --extra-vars "project=test site_name=staging" -vvvv
+
 
     # ec2 connection test, update appservers ip first, then
     ansible-playbook -i inventory/ec2env ec2_conn_test.yml
