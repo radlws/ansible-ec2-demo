@@ -4,7 +4,7 @@
 ebs_volumes:
   #- { device: '/dev/xvdf', name: 'home', size: 1, mount: '/mnt/home', sym_link: '/home', region: 'us-east-1', volume_type: 'gp2'  }
   - { device: '/dev/xvdf', name: 'home', size: 1, mount: '/mnt/home', sym_link: '/home', region: 'us-east-1', volume_type: 'gp2'  }
-  - { device: '/dev/xvdg', name: 'pg_data', size: 1, mount: '/mnt/pg_data', sym_link: '/var/lib/pg_test', last_mount: , region: 'us-east-1', volume_type: 'gp2'   }
+  - { device: '/dev/xvdg', name: 'pg_data', size: 1, mount: '/mnt/pg_data', sym_link: '/var/lib/postgresql/9.3/main', last_mount: , region: 'us-east-1', volume_type: 'gp2'   }
 
 
 team_user_prefix: team
