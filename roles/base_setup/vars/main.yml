@@ -1,0 +1,8 @@
+server_timezone: America/Toronto
+locale: en_CA.UTF-8
+
+nginx_vars:
+  connections : "1024"
+  worker_processes: "4"
+
+exim4_sender_hostname: 'ubuntu-server'

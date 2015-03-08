@@ -1,0 +1,24 @@
+---
+# bash tunes
+# first item: set bash default editor vim
+- name: correct editor selected
+  alternatives: name=editor path=/usr/bin/vim
+
+- name: add node.js repo to /etc/apt-/sources.list/
+  apt_repository: repo=ppa:chris-lea/node.js
+  run_once: true
+- name: add ubuntugis repo to /etc/apt/sources.list/
+  apt_repository: repo=ppa:ubuntugis/ubuntugis-unstable
+  run_once: true
+- name: add git repo to /etc/apt/sources.list/
+  apt_repository: repo=ppa:git-core/ppa
+  run_once: true
+- name: update apt
+  apt: update_cache=yes
+- apt: upgrade=safe
+
+- name: install unattended upgrades package
+  apt: name=unattended-upgrades
+  notify:
+    - dpkg reconfigue unattended
+  run_once: true

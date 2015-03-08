@@ -1,0 +1,21 @@
+##
+# set timezone
+##
+---
+- name: Install language en package
+  apt: pkg=language-pack-en state=installed update-cache=yes
+  tags:
+    - packages
+
+- name: locale gen
+  command: /usr/sbin/locale-gen
+
+- name: "Set server timezone to {{ server_timezone }}"
+  shell: echo "{{ server_timezone }}" > /etc/timezone
+  notify:
+    - update timezone
+
+- name: "set locale {{ locale }}"
+  command: /usr/sbin/update-locale LANG="{{ locale }}" LC_ALL="{{ locale }}"
+  notify:
+    - output locale

@@ -1,0 +1,22 @@
+##
+# install base utils packages
+##
+---
+- name: Install utils packages
+  apt: pkg=ntp state=installed update-cache=yes
+  with_items:
+    - w3m
+    - rsync
+    - rsnapshot
+    - build-essential
+    - htop
+  tags:
+    - packages
+
+- name: install image libraries
+  apt: name={{ item }} state=installed
+  with_items:
+    - libjpeg-turbo8-dev
+    - zlib1g-dev
+    - libfreetype6-dev
+  run_once: true
