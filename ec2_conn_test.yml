@@ -1,0 +1,17 @@
+---
+- hosts: appservers
+  gather_facts: False
+  sudo: true
+  tasks:
+
+    # Testing only here --------------------------
+
+    - name: unmount vol if vol has last_mount
+      mount: name="{{ item.mount }}" src="{{ item.device }}" fstype=ext4 state=absent
+      when: item.sym_link == '/home'
+      with_items: ebs_volumes
+
+    - name: remount vol if vol has last_mount as last_mount
+      mount: name="{{ item.sym_link }}" src="{{ item.device }}" fstype=ext4 state=mounted
+      when: item.sym_link == '/home'
+      with_items: ebs_volumes

@@ -1,0 +1,32 @@
+---
+#- name: Print
+#  debug: msg="{{ item.0.name }} {{ item.1.name }}"
+#  #with_items: ebs_volumes
+#  with_nested:
+#    - ebs_volumes
+#    - ebs_volumes
+
+#- name: set team name variable for later use (create user)
+#  set_fact:
+#    team_user: "{{ project + 'team' }}"
+#  #when: param2 is defined
+
+#- name: Print
+#  debug: msg="{{ team_user }}"
+
+# TODO: Skip if instance_id is passed, means don't create instance, only vols
+
+- name: create new ec2 instance
+  ec2:
+    region: "{{ aws_defaults.aws_region }}"
+    zone: "{{ aws_defaults.aws_zone }}"
+    keypair: "{{ aws_defaults.aws_key_pair }}"
+    group: "{{ aws_defaults.security_group }}"
+    instance_type: "{{ aws_defaults.instance_type }}"
+    image: "{{ aws_defaults.ami_id }}"
+    count: 1
+    wait: yes
+    instance_tags:
+      Name: "{{ project }}-{{ site_name }}"
+  register: ec2_info
+

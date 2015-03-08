@@ -1,0 +1,10 @@
+---
+- name: wait for instance to listen on port 22
+  wait_for:
+    state: started
+    host: "{{ elastic_ip.results[0].public_ip }}"
+    #host: "{{ ec2_info.instances[0].public_dns_name }}"
+    port: 22
+    delay: 2 # wait before checking if listening
+    timeout: 240
+  when: elastic_ip|changed

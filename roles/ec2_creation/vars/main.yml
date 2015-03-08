@@ -1,0 +1,17 @@
+---
+# TODO: examine structure vs ladder
+#ebs_volumes:
+#  /dev/xvdf:  # item.key, home
+#    device: /dev/xvdf  # item.value.device
+#    mount: /home
+#    name: home
+#    size: 1
+#    volume_type: gp2
+#    region: us-east-1
+#  /dev/xvdg:  # item.key, home
+#    device: /dev/xvdg  # item.value.device
+#    mount: /svr/postgres_data
+#    name: postgres data
+#    size: 1
+#    volume_type: gp2
+#    region: us-east-1

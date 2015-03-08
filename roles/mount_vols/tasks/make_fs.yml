@@ -1,0 +1,47 @@
+---
+
+- name: make fs
+  filesystem: fstype=ext4 dev="{{ item.device }}"
+  with_items: ebs_volumes
+  #run_once: true
+
+#- name: Move foo to bar
+#  command: creates="path/to/bar" mv /path/to/foo /path/to/bar
+- name: create directory for mount
+  file: path="{{ item.mount }}" state=directory
+  with_items: ebs_volumes
+
+- name: mount the new fs
+  mount: name="{{ item.mount }}" src="{{ item.device }}" fstype=ext4 state=mounted #present (check if exist, no mount)
+  with_items: ebs_volumes
+
+#- stat: path=/path/to/something  # TODO: need to stat if exists?
+#  register: p
+#- debug: msg="Path exists and is a directory"
+#  when: p.stat.isdir is defined and p.stat.isdir
+
+- name: copy files to new volume preserving permissions
+  shell: cp -rp {{ item.sym_link }}/* {{ item.mount }}
+  with_items: ebs_volumes
+  ignore_errors: yes  # continue if orig doesn't exist
+
+- name: cp data instead of delete, for no loss
+  command: cp -rf {{ item.sym_link }} {{ item.sym_link + '_old' }}
+  with_items: ebs_volumes
+  ignore_errors: yes  # continue if orig doesn't exist
+
+- name: create symlink for mount
+  file: dest="{{ item.sym_link }}" src="{{ item.mount }}" state=link force=yes
+  when: item.sym_link != '/home'
+  #when: item.sym_link is defined
+  with_items: ebs_volumes
+
+- name: unmount vol if vol has last_mount
+  mount: name="{{ item.mount }}" src="{{ item.device }}" fstype=ext4 state=absent
+  when: item.sym_link == '/home'
+  with_items: ebs_volumes
+
+- name: remount vol if vol has last_mount as last_mount
+  mount: name="{{ item.sym_link }}" src="{{ item.device }}" fstype=ext4 state=mounted
+  when: item.sym_link == '/home'
+  with_items: ebs_volumes

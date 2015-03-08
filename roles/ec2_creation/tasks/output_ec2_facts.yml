@@ -1,0 +1,12 @@
+---
+- name: output ec2 instance information
+  debug:
+    msg: "{{ ec2_info }}"
+
+- name: output ebs volume information
+  debug:
+    msg: "{{ ebs_info }}"
+
+- name: output the elastic IP
+  debug:
+    msg: "Allocated IP.{{ elastic_ip }}"
