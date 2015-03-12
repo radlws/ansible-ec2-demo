@@ -1,17 +1,48 @@
 ---
 - hosts: appservers
-  gather_facts: False
-  sudo: true
+  gather_facts: True
+  user: ec2-user
+  sudo: True
   tasks:
 
-    # Testing only here --------------------------
+    # fetch instance data from the metadata servers in ec2
+    #- ec2_facts:
+    - name: Gather facts
+      action: ec2_facts
 
-    - name: unmount vol if vol has last_mount
-      mount: name="{{ item.mount }}" src="{{ item.device }}" fstype=ext4 state=absent
-      when: item.sym_link == '/home'
-      with_items: ebs_volumes
+    - name: Conditional
+      action: debug msg="This instance is a {{ ansible_ec2_instance_type }}, id {{ ansible_ec2_instance_id }}"
+      #when: ansible_ec2_instance_type == "t1.micro"
 
-    - name: remount vol if vol has last_mount as last_mount
-      mount: name="{{ item.sym_link }}" src="{{ item.device }}" fstype=ext4 state=mounted
-      when: item.sym_link == '/home'
-      with_items: ebs_volumes
+    # just show the instance-id
+    #- debug: msg= "{{ hostvars[inventory_hostname]['ansible_ec2_instance_id'] }}"
+
+#- hosts: appservers # localhost
+#  gather_facts: False
+#  #connection: local
+#  sudo: false #true
+#  tasks:
+#
+#    # Testing only here --------------------------
+#    - name: Gather EC2 facts
+#      ec2_facts:
+#    - debug: msg="{{ hostvars }}"
+
+#    - name: unmount vol if vol has last_mount
+#      mount: name="{{ item.mount }}" src="{{ item.device }}" fstype=ext4 state=absent
+#      when: item.sym_link == '/home'
+#      with_items: ebs_volumes
+#
+#    - name: remount vol if vol has last_mount as last_mount
+#      mount: name="{{ item.sym_link }}" src="{{ item.device }}" fstype=ext4 state=mounted
+#      when: item.sym_link == '/home'
+#      with_items: ebs_volumes
+
+
+# using local action
+#- name: terminating single instance
+# local_action:
+#   module: ec2
+#   state: 'absent'
+#   region: us-east-1
+#   instance_ids: "{{ ansible_ec2_instance_id }}"
