@@ -1,0 +1,5 @@
+---
+# Todo: hostname ? is domainname
+- name: update hostname
+  hostname: name=(( project }}.{{ site_name }}.trapeze.com
+  #hostname: name='ip-172-31-38-24'

@@ -1,0 +1,3 @@
+---
+# - name: run update-postgresql.conf
+#   command: initdb -D /srv/pg_data/{{ postgresql.version}}/main

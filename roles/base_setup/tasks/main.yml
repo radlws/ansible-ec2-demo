@@ -1,0 +1,9 @@
+---
+- include: timezone.yml
+- include: vcs.yml
+- include: utils.yml
+- include: nginx.yml
+- include: python_tools.yml
+- include: exim4.yml
+- include: tunes.yml
+- include: node_npm.yml

@@ -1,0 +1,19 @@
+
+# TODO: use git to download the django hosting templates to ~/hosting_templates
+
+
+# TODO: Need to symlink the files that are created in db setup, base setup, web setup
+# see boulanger/system.py - make_config_file, symlink_config_file
+
+# look at base_setup.py and every time you see make_config_file, its using the
+# template from hosting_templates repo
+
+#TODO
+#    def install_pgtune(self):
+#        self.project.apt('pgtune')
+#        # tuning
+#        postgres_conf = os.path.join(self.project.hosting_dir, 'postgresql.conf')
+#        run('pgtune -i {0} -o {0} -T Web'.format(postgres_conf))
+#        #restart postgres
+#        sudo('/etc/init.d/postgresql restart')
+#        #sudo service postgresql restart

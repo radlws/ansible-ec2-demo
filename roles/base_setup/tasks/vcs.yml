@@ -1,0 +1,13 @@
+##
+# install base version contol systems etc.,
+##
+---
+- name: Install subversion
+  apt: pkg=subversion state=installed update-cache=yes
+  tags:
+    - vcs
+  with_items:
+    - git-core
+    - git-svn
+    - subversion
+  run_once: true

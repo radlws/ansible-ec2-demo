@@ -1,0 +1,21 @@
+##
+# Install postgis packages 
+##
+---
+- name: Install postgis
+  # apt: name=postgis state=present
+  apt: pkg=postgresql-9.3-postgis-2.1
+  sudo: yes
+  with_items:
+  - name: ensure apt cache is up to date
+    apt: update_cache=yes
+  - name: ensure packages are installed
+    with_items:
+      - binutils
+      - python-gdal
+      - libproj-dev
+      - gdal-bin
+      - libpq-dev 
+      - postgresql-9.3-postgis-scripts  # TODO explicit vs magic vars define
+    tags:
+      - packages

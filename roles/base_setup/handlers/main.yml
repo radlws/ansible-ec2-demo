@@ -1,0 +1,25 @@
+---
+- name: update timezone
+  command: dpkg-reconfigure --frontend noninteractive tzdata
+
+- name: output locale
+  debug:
+    msg: "Attention, {{ locale }} will be available after the server reboots"
+
+- name: restart nginx
+  action: service name=nginx state=restarted
+
+- name: pip upgrade setuptools
+  command: pip install --no-use-wheel --upgrade setuptools
+
+- name: run update-exim4.conf
+  command: update-exim4.conf
+
+- name: restart exim4
+  service: name=exim4 state=restarted
+
+- name: dpkg reconfigure
+  command: >
+    dpkg-reconfigure unattended
+    --frontend noninteractive
+    -plow unattended-upgrades

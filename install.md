@@ -9,7 +9,9 @@ To run:
     export AWS_ACCESS_KEY_ID=''
     export AWS_SECRET_ACCESS_KEY=''
 
-3) run on control system:
+3) run ssh-add on your ssh key used for the instance
+
+4) run on control system:
 
     # To create ec2 volumes on existing instance
     ansible-playbook -i inventory/ec2env site.yml

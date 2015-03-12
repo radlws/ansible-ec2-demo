@@ -1,0 +1,59 @@
+##
+# Installs PostgreSQL on an Ubuntu system for python apps
+# add project user on postgres group
+#
+---
+- name: Install Postgresql server and client
+  # apt: pkg={{ item }} state=installed update-cache=yes
+  apt: pkg={{ item }} state=installed update-cache=yes
+  register: postgresql_install
+  with_items:
+    - postgresql-9.3  # verbatim, explicit
+  tags:
+    - packages
+
+# - name: update postgresql.conf configuration file
+#   template: src=update-postgresql.conf.j2 dest=/etc/postgresql/{{ postgresql.version }}/main/postgresql.conf
+#   notify:
+#     - run update-postgresql.conf
+
+- name: Install development header files
+  apt: pkg={{ item }} state=installed update-cache=yes
+  #when: postgresql.install_development_headers == true
+  with_items:
+    #- libpq-dev
+    - python-psycopg2
+  tags:
+    - packages
+
+  notify:
+    - restart postgresql
+  tags:
+    - configuration
+
+
+# TODO: boulanger/system.py
+# - create_database_user ,  generate_database_password, create_pgpass (new),
+
+
+#sql = (
+#    "CREATE ROLE %(user)s PASSWORD '%(password)s' "
+#    "NOSUPERUSER CREATEDB NOCREATEROLE INHERIT LOGIN;" % params
+#)
+
+
+
+#- name: Add {{ project }}{{ team_user_prefix }} on postgres group
+#  command: gpasswd -a {{ project }}{{ team_user_prefix }} postgres
+
+#- name: ensure database is created
+#  sudo_user: postgres
+#  postgresql_db: name={{ project }}{{ team_user_prefix }}
+#
+#- name: ensure user has access to database
+#  sudo_user: postgres
+#  postgresql_user: db={{ project }}{{ team_user_prefix }} name={{ project }}{{ team_user_prefix }} priv=ALL
+#
+#- name: ensure user does not have unnecessary privilege
+#  sudo_user: postgres
+#  postgresql_user: name={{ project }}{{ team_user_prefix }} role_attr_flags=NOSUPERUSER,NOCREATEDB
